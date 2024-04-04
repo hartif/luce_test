@@ -29,6 +29,7 @@ class TransactionsController < ApplicationController
 
     respond_to do |format|
       if @transaction.save
+        @transaction.invoice.set_invoice_request "DRAFT"
         format.html { redirect_to client_invoice_transaction_url(id: @transaction.id), notice: "Transaction was successfully created." }
         format.json { render :show, status: :created, location: @transaction }
       else
@@ -42,6 +43,7 @@ class TransactionsController < ApplicationController
   def update
     respond_to do |format|
       if @transaction.update(transaction_params)
+        @transaction.invoice.set_invoice_request "DRAFT"
         format.html { redirect_to client_invoice_transaction_url(id: @transaction.id), notice: "Transaction was successfully updated." }
         format.json { render :show, status: :ok, location: @transaction }
       else
@@ -55,6 +57,7 @@ class TransactionsController < ApplicationController
   def destroy
     @transaction.destroy
     respond_to do |format|
+      @transaction.invoice.set_invoice_request "DRAFT"
       format.html { redirect_to client_invoice_transactions_url(invoice_id: @invoice.id), notice: "Transaction was successfully destroyed." }
       format.json { head :no_content }
     end

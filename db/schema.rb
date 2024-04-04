@@ -10,13 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_22_100351) do
+ActiveRecord::Schema[7.0].define(version: 2024_04_04_131730) do
   create_table "clients", charset: "latin1", force: :cascade do |t|
     t.string "name"
     t.string "phone"
     t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "xero_id"
   end
 
   create_table "invoices", charset: "latin1", force: :cascade do |t|
@@ -29,7 +30,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_22_100351) do
     t.bigint "client_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "xero_invoice_number"
     t.index ["client_id"], name: "index_invoices_on_client_id"
+  end
+
+  create_table "tokens", charset: "latin1", force: :cascade do |t|
+    t.string "name"
+    t.text "access_token"
+    t.datetime "expired_at"
+    t.string "token_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "transactions", charset: "latin1", force: :cascade do |t|
@@ -40,6 +51,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_22_100351) do
     t.bigint "invoice_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "xero_id"
     t.index ["invoice_id"], name: "index_transactions_on_invoice_id"
   end
 

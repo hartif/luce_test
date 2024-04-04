@@ -19,4 +19,8 @@ class Transaction < ApplicationRecord
   def amount
     unit_amount * quantity
   end
+
+  def set_obj
+    {UnitAmount: unit_amount, Quantity: quantity, Description: description, LineItemID: xero_id, AccountCode: "200", TaxType: "NONE"}
+   end
 end

@@ -11,6 +11,7 @@ def generate_invoices
         transaction = Transaction.create(new_transaction_params(invoice))
       end
       invoice.update_amount
+      invoice.set_invoice_request
     end
   end
 end

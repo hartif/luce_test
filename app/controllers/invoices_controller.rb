@@ -24,11 +24,13 @@ class InvoicesController < ApplicationController
 
   def confirm
     @invoice.confirm
+    @invoice.set_invoice_request "AUTHORISED"
     redirect_to client_invoice_url(id: @invoice.id), notice: "Invoice was successfully confirmed."
   end
 
   def cancel
     @invoice.cancel
+    @invoice.set_invoice_request "VOIDED"
     redirect_to client_invoice_url(id: @invoice.id), notice: "Invoice was successfully cancelled."
   end
 
@@ -41,6 +43,7 @@ class InvoicesController < ApplicationController
   def create
     @invoice = Invoice.new(invoice_params)
     @form_path = client_invoices_path(@client)
+    @invoice.xero_invoice_number = "INV-"+ Invoice.random_simple_alphanumeric
     respond_to do |format|
       if @invoice.save
         format.html { redirect_to client_invoices_url(id: @client.id), notice: "Invoice was successfully created." }
